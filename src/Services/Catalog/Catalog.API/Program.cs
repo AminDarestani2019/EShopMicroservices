@@ -27,13 +27,27 @@ if (builder.Environment.IsDevelopment())
 }
 
 //adding https
+
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
+    var config = builder.Configuration;
+
     serverOptions.ConfigureHttpsDefaults(httpsOptions =>
     {
-        httpsOptions.ServerCertificate = new X509Certificate2("d:\\https\\localhost.pfx", "mypassword");
+        httpsOptions.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(
+            config["Kestrel:Certificates:Default:Path"],
+            config["Kestrel:Certificates:Default:Password"]);
     });
 });
+
+
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
+//    {
+//        httpsOptions.ServerCertificate = new X509Certificate2("d:\\https\\localhost.pfx", "mypassword");
+//    });
+//});
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
@@ -49,5 +63,7 @@ app.UseHealthChecks("/health",
     { 
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
+
+app.UseHttpsRedirection();
 
 app.Run();
