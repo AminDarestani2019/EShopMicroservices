@@ -2,21 +2,21 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5000"
+      "applicationUrl": "http://localhost:5001"
     },
     "https": {
       "commandName": "Project",
-      "launchBrowser": false,
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:5050;http://localhost:5000"
+      "applicationUrl": "https://localhost:5051;http://localhost:5001"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -37,7 +37,7 @@
       "useSSL": true
     }
   },
-  "Catalog.API": {
+  "Basket.API": {
     "commandName": "Project",
     "dotnetRunMessages": true,
     "launchBrowser": false,
@@ -55,8 +55,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:15767",
-      "sslPort": 44358
+      "applicationUrl": "http://localhost:40969",
+      "sslPort": 44394
     }
   }
 }
