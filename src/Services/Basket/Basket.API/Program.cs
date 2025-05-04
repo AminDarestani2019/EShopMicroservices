@@ -1,6 +1,11 @@
 using BuildingBlocks.Exceptions.Handler;
+using Discount.grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+//using System.Security.Cryptography.X509Certificates;
+
+var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+var certificatePath = Path.Combine(appData, "ASP.NET", "https", "mycertificate.pfx");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +18,8 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
-//adding https
 
+//adding https
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     var config = builder.Configuration;
@@ -27,6 +32,15 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     });
 });
 
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ConfigureHttpsDefaults(httpsOptions =>
+//    {
+//        httpsOptions.ServerCertificate = new X509Certificate2(certificatePath, "mypassword");
+//    });
+//});
+
+//Data Services
 builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
@@ -41,6 +55,22 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 });
 
+//Grpc Services
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+}).ConfigurePrimaryHttpMessageHandler(()=>
+{
+    var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = 
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+    return handler;
+});
+
+
+//Cross-Cutting Services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
