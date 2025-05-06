@@ -14,6 +14,9 @@ services:
   distributedcache:
     image: redis
 
+  orderdb: 
+    image: mcr.microsoft.com/mssql/server
+
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
