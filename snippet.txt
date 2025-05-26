@@ -1,0 +1,14 @@
+//using System.Security.Cryptography.X509Certificates;
+
+//var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+//var certificatePath = Path.Combine(appData, "ASP.NET", "https", "mycertificate.pfx");
+
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ConfigureHttpsDefaults(httpsOptions =>
+//    {
+//        httpsOptions.ServerCertificate = new X509Certificate2(certificatePath, "mypassword");
+//    });
+//});
+
+aws account id = 975049902237

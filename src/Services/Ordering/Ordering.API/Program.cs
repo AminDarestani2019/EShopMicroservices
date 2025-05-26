@@ -4,28 +4,27 @@ using Ordering.Infrastructure;
 using Ordering.Infrastructure.Data.Extensions;
 using System.Security.Cryptography.X509Certificates;
 
-var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-var certificatePath = Path.Combine(appData, "ASP.NET", "https", "mycertificate.pfx");
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options =>
+//adding https
+builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    options.ConfigureHttpsDefaults(httpsOptions =>
+    var config = builder.Configuration;
+
+    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
     {
-        httpsOptions.ServerCertificate = new X509Certificate2(certificatePath, "mypassword");
+        httpsOptions.ServerCertificate = new X509Certificate2(
+            config["Kestrel:Certificates:Default:Path"],
+            config["Kestrel:Certificates:Default:Password"]);
     });
 });
-
-
 builder.Services
-    .AddApplicationServices()
+    .AddApplicationServices(builder.Configuration)
     .AddInfrastructureServices(builder.Configuration)
     .AddApiServices();
 
 var app = builder.Build();
 
-//app.MapGet("/", () => "Hello World!");
 // configure the http request pipeline
 app.UseApiServices();
 

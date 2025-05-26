@@ -1,11 +1,10 @@
 using BuildingBlocks.Exceptions.Handler;
-using Discount.grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-//using System.Security.Cryptography.X509Certificates;
+using BuildingBlocks.Messaging.MassTransit;
+using Discount.grpc;
 
-var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-var certificatePath = Path.Combine(appData, "ASP.NET", "https", "mycertificate.pfx");
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,14 +30,6 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
             config["Kestrel:Certificates:Default:Password"]);
     });
 });
-
-//builder.WebHost.ConfigureKestrel(options =>
-//{
-//    options.ConfigureHttpsDefaults(httpsOptions =>
-//    {
-//        httpsOptions.ServerCertificate = new X509Certificate2(certificatePath, "mypassword");
-//    });
-//});
 
 //Data Services
 builder.Services.AddMarten(opts =>
@@ -69,6 +60,8 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
     return handler;
 });
 
+//Async Communication services
+builder.Services.AddMessageBroker(builder.Configuration);
 
 //Cross-Cutting Services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();

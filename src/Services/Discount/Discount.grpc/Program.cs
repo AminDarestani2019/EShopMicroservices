@@ -1,24 +1,12 @@
 using Discount.grpc.Data;
 using Discount.grpc.Services;
 using Microsoft.EntityFrameworkCore;
-//using System.Security.Cryptography.X509Certificates;
-
-//var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-//var certificatePath = Path.Combine(appData, "ASP.NET", "https", "mycertificate.pfx");
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
-
-//builder.WebHost.ConfigureKestrel(options =>
-//{
-//    options.ConfigureHttpsDefaults(httpsOptions =>
-//    {
-//        httpsOptions.ServerCertificate = new X509Certificate2(certificatePath, "mypassword");
-//    });
-//});
-
 //adding https
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -26,7 +14,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 
     serverOptions.ConfigureHttpsDefaults(httpsOptions =>
     {
-        httpsOptions.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(
+        httpsOptions.ServerCertificate = new X509Certificate2(
             config["Kestrel:Certificates:Default:Path"],
             config["Kestrel:Certificates:Default:Password"]);
     });

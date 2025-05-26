@@ -1,5 +1,6 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 
     serverOptions.ConfigureHttpsDefaults(httpsOptions =>
     {
-        httpsOptions.ServerCertificate = new System.Security.Cryptography.X509Certificates.X509Certificate2(
+        httpsOptions.ServerCertificate = new X509Certificate2(
             config["Kestrel:Certificates:Default:Path"],
             config["Kestrel:Certificates:Default:Password"]);
     });
@@ -53,7 +54,5 @@ app.UseHealthChecks("/health",
     { 
         ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
     });
-
-app.UseHttpsRedirection();
 
 app.Run();
