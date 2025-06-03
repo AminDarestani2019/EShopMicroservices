@@ -26,7 +26,8 @@ if (builder.Environment.IsDevelopment())
     builder.Services.InitializeMartenWith<CatalogInitialData>(); 
 }
 
-//adding https
+	
+/* //adding https
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -38,7 +39,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
             config["Kestrel:Certificates:Default:Path"],
             config["Kestrel:Certificates:Default:Password"]);
     });
-});
+}); */
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks().AddNpgSql(builder.Configuration.GetConnectionString("Database")!);

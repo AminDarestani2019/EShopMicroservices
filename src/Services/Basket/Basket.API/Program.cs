@@ -18,7 +18,7 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
-//adding https
+/* //adding https
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     var config = builder.Configuration;
@@ -29,7 +29,9 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
             config["Kestrel:Certificates:Default:Path"],
             config["Kestrel:Certificates:Default:Password"]);
     });
-});
+}); */
+
+// فقط HTTP گوش بده (بدون https و certificate)
 
 //Data Services
 builder.Services.AddMarten(opts =>

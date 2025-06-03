@@ -34,10 +34,7 @@
     "applicationUrl": "https://localhost:8081;http://localhost:8080",
     "environmentVariables": {
       "ASPNETCORE_ENVIRONMENT": "Development",
-      "ASPNETCORE_HTTP_PORTS": "8080",
-      "ASPNETCORE_HTTPS_PORTS": "8081",
-      "Kestrel__Certificates__Default__Path": "/home/app/.aspnet/https/mycertificate.pfx",
-      "Kestrel__Certificates__Default__Password": "mypassword"
+      "ASPNETCORE_HTTP_PORTS": "8080"
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json"

@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddGrpc();
 //adding https
-builder.WebHost.ConfigureKestrel(serverOptions =>
+/* builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     var config = builder.Configuration;
 
@@ -19,6 +19,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
             config["Kestrel:Certificates:Default:Password"]);
     });
 });
+ */
+ 
 
 builder.Services.AddDbContext<DiscountContext>(opts =>
 opts.UseSqlite(builder.Configuration.GetConnectionString("Database")));

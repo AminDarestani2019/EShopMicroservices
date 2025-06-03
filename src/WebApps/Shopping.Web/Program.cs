@@ -2,18 +2,18 @@ using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//adding https
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    var config = builder.Configuration;
+////adding https
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    var config = builder.Configuration;
 
-    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
-    {
-        httpsOptions.ServerCertificate = new X509Certificate2(
-            config["Kestrel:Certificates:Default:Path"],
-            config["Kestrel:Certificates:Default:Password"]);
-    });
-});
+//    serverOptions.ConfigureHttpsDefaults(httpsOptions =>
+//    {
+//        httpsOptions.ServerCertificate = new X509Certificate2(
+//            config["Kestrel:Certificates:Default:Path"],
+//            config["Kestrel:Certificates:Default:Password"]);
+//    });
+//});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
