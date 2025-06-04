@@ -32,7 +32,9 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+USER root
 COPY Services/Ordering/Ordering.API/wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
+USER $APP_UID
 
 ENTRYPOINT ["/wait-for-it.sh", "orderdb:1433", "--","dotnet", "Ordering.API.dll"]
